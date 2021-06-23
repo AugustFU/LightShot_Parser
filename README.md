@@ -18,5 +18,5 @@
 
 # Связь со мной
 Буду рад обратной связи <br />
-Telegram: <@augustfu> <br />
+Telegram: @augustfu <br />
 Email: augustfu@internet.ru
