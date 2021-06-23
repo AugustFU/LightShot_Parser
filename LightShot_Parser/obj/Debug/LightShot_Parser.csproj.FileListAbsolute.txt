@@ -1,0 +1,11 @@
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\bin\Debug\LightShot_Parser.exe.config
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\bin\Debug\LightShot_Parser.exe
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\bin\Debug\LightShot_Parser.pdb
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.csprojAssemblyReference.cache
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.csproj.CoreCompileInputs.cache
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.exe
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.pdb
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\bin\Debug\LightShot_Parser.exe.manifest
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\bin\Debug\LightShot_Parser.application
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.exe.manifest
+C:\Users\warfa\source\repos\LightShot_Parser\LightShot_Parser\obj\Debug\LightShot_Parser.application
