@@ -29,6 +29,7 @@ namespace LightShot_Parser
             while (true)
             {
                 Console.Clear();
+                Message.StartLogo();
 
                 Message.Tips(@"В конце пути до папки необходимо поставить \ иначе скриншоты будут сохранены на диск!");
                 Console.Write(@"Укажите путь для сохранения картинок [Пример: D:\Screenshots\]: ");
