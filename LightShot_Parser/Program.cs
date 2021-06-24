@@ -305,9 +305,10 @@ namespace LightShot_Parser
                     // Конструкция для выбора способа парсинга
                     switch (number)
                     {
-                        case 1:
-                            AlgoritmParse(client, level == 1 ? reHref : reHrefHard, localFileName);
-                            break;
+                        // На данный момент не доступно
+                        // case 1:
+                            // AlgoritmParse(client, level == 1 ? reHref : reHrefHard, localFileName);
+                            // break;
 
                         case 2:
                             RandomParse(client, level == 1 ? reHref : reHrefHard, localFileName);
