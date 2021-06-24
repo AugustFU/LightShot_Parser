@@ -39,13 +39,7 @@ namespace LightShot_Parser
                 if (fileNameRegex.IsMatch(localFileName))
                 {
                     Console.WriteLine("Выберите способ поиска скриншотов:");
-                    Console.Write("1) Полный перебор всех возможных скриншотов");
-
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write(" [На данный момент не доступно] ");
-                    Console.ResetColor();
-                    Console.WriteLine();
-
+                    Console.WriteLine("1) Полный перебор всех возможных скриншотов");
                     Console.WriteLine("2) Рандомные скриншоты");
                     Console.WriteLine("3) Перебор скриншотов, имеющих только числовой адрес");
 
@@ -62,10 +56,9 @@ namespace LightShot_Parser
                     // Конструкция для выбора способа парсинга
                     switch (number)
                     {
-                        // На данный момент не доступно
-                        // case 1:
-                            // AlgoritmParse(client, level == 1 ? reHref : reHrefHard, localFileName);
-                            // break;
+                        case 1:
+                            ParserMethods.AlgoritmParse(client, level == 1 ? reHref : reHrefHard, localFileName);
+                            break;
 
                         case 2:
                             ParserMethods.RandomParse(client, level == 1 ? reHref : reHrefHard, localFileName);

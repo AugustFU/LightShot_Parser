@@ -28,59 +28,64 @@ namespace LightShot_Parser
             string src_upd = Console.ReadLine();
             Console.WriteLine();
 
-            for (int i = 0; i < imgAmount; i++)
+            int totalDownload = 0;
+
+            for (int i = 0; i < allowedChars.Length; i++)
             {
-                for (int j = 0; j < imgAmount; j++)
+                for(int j = 0; j < allowedChars.Length; j++)
                 {
-                    int ii = j;
-
-                    string src_updTemp = src_upd;
-                    for (int o = 0; o < 5; o++)
+                    for(int p = 0; p < allowedChars.Length; p++)
                     {
-                        src_updTemp = src_upd;
-                        src_updTemp += allowedChars[ii % 5];
+                        for(int g = 0; g < allowedChars.Length; g++)
+                        {
+                            for(int a = 0; a < allowedChars.Length; a++)
+                            {
+                                string lightShot_src = "https://prnt.sc/" + src_upd + allowedChars[i]
+                                + allowedChars[j] + allowedChars[p] + allowedChars[g] + allowedChars[a];
 
+                                totalDownload++;
+                                // Парсинг HTML-кода страницы
+                                Uri uri = new Uri(lightShot_src);
+                                string html = client.DownloadString(uri);
+
+                                try
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("Количество скаченных скриншотов: " + (totalDownload));
+                                    Console.WriteLine("Ссылка на скриншот: " + lightShot_src);
+                                    Console.WriteLine("Текущий скриншот для скачивания: " + reHref.Match(html));
+
+                                    // Непосредственно парсинг картинки и добавление ее в соответсвующую директорию
+                                    client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (totalDownload) + ".png"));
+                                    client.Headers["User-Agent"] = "Mozilla/5.0";
+                                    Thread.Sleep(100);
+                                    
+                                    if(imgAmount == totalDownload) Message.FinishingMessage();
+
+                                }
+                                catch (System.ArgumentException) // Обработчик исключений, если не удалось получить доступ к картинке
+                                {
+                                    Message.WarningExpect("Не удалось загрузить данный скриншот");
+
+                                    client.Headers["User-Agent"] = "Mozilla/5.0";
+                                    faultvalue++;
+                                    continue;
+                                }
+
+                                catch (System.Net.WebException) // Обработчик исключений, если указан не верный абсолютный путь
+                                {
+                                    ExeptionCount++;
+                                    Console.Clear();
+                                    Message.FaultExpect("Папка не найдена, пожалуйста, введите правильный путь следуя примеру");
+                                    break;
+                                }
+
+                             
+
+                            }
+                        }
                     }
-
-                    string lightShot_src = "https://prnt.sc/" + src_updTemp;
-
-                    // Парсинг HTML-кода страницы
-                    Uri uri = new Uri(lightShot_src);
-                    string html = client.DownloadString(uri);
-
-                    try
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("Количество скаченных скриншотов: " + (i + 1));
-                        Console.WriteLine("Ссылка на скриншот: " + lightShot_src);
-                        Console.WriteLine("Текущий скриншот для скачивания: " + reHref.Match(html));
-
-                        // Непосредственно парсинг картинки и добавление ее в соответсвующую директорию
-                        client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (i + 1) + ".png"));
-                        client.Headers["User-Agent"] = "Mozilla/5.0";
-                        Thread.Sleep(100);
-                    }
-                    catch (System.ArgumentException) // Обработчик исключений, если не удалось получить доступ к картинке
-                    {
-                        Message.WarningExpect("Не удалось загрузить данный скриншот");
-
-                        client.Headers["User-Agent"] = "Mozilla/5.0";
-                        faultvalue++;
-                        continue;
-                    }
-
-                    catch (System.Net.WebException) // Обработчик исключений, если указан не верный абсолютный путь
-                    {
-                        ExeptionCount++;
-                        Console.Clear();
-                        Message.FaultExpect("Папка не найдена, пожалуйста, введите правильный путь следуя примеру");
-                        break;
-                    }
-
                 }
-
-                if (ExeptionCount == 0) Message.FinishingMessage();
-
             }
         }
 
