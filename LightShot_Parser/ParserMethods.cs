@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace LightShot_Parser
 {
@@ -17,6 +19,26 @@ namespace LightShot_Parser
 
         // Все возможные символы в ссылке на скриншот
         public static char[] allowedChars = "abcdefghijklmnopqrstuvwxyz123456789".ToCharArray();
+        public static bool HashCheck(string localFileName, int i)
+        {
+            const string HEX = "9B5936F4006146E4E1E9025B474C02863C0B5614132AD40DB4B925A10E8BFBB9";
+            string hash = null;
+
+            using (FileStream stream = File.OpenRead((localFileName + (i + 1) + ".png")))
+            {
+                var sha = new SHA256Managed();
+                byte[] checksum = sha.ComputeHash(stream);
+                hash = BitConverter.ToString(checksum).Replace("-", String.Empty);
+            }
+            
+            if(hash == HEX)
+            {
+                File.Delete((localFileName + (i + 1) + ".png"));
+                Message.WarningExpect("Данный скриншот удален");
+            }
+
+            return true;
+        }
 
         public static void AlgoritmParse(WebClient client, Regex reHref, string localFileName)
         {
@@ -43,7 +65,6 @@ namespace LightShot_Parser
                                 string lightShot_src = "https://prnt.sc/" + src_upd + allowedChars[i]
                                 + allowedChars[j] + allowedChars[p] + allowedChars[g] + allowedChars[a];
 
-                                totalDownload++;
                                 // Парсинг HTML-кода страницы
                                 Uri uri = new Uri(lightShot_src);
                                 string html = client.DownloadString(uri);
@@ -51,16 +72,18 @@ namespace LightShot_Parser
                                 try
                                 {
                                     Console.WriteLine();
-                                    Console.WriteLine("Количество скаченных скриншотов: " + (totalDownload));
+                                    Console.WriteLine("Количество скаченных скриншотов: " + (totalDownload + 1));
                                     Console.WriteLine("Ссылка на скриншот: " + lightShot_src);
                                     Console.WriteLine("Текущий скриншот для скачивания: " + reHref.Match(html));
 
                                     // Непосредственно парсинг картинки и добавление ее в соответсвующую директорию
-                                    client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (totalDownload) + ".png"));
+                                    client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (totalDownload + 1) + ".png"));
+                                    HashCheck(localFileName, totalDownload);
+                                    
                                     client.Headers["User-Agent"] = "Mozilla/5.0";
                                     Thread.Sleep(100);
                                     
-                                    if(imgAmount == totalDownload) Message.FinishingMessage();
+                                    if(imgAmount == totalDownload + 1) Message.FinishingMessage();
 
                                 }
                                 catch (System.ArgumentException) // Обработчик исключений, если не удалось получить доступ к картинке
@@ -121,6 +144,8 @@ namespace LightShot_Parser
 
                     // Непосредственно парсинг картинки и добавление ее в соответсвующую директорию
                     client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (i + 1) + ".png"));
+                    HashCheck(localFileName, i);
+        
                     client.Headers["User-Agent"] = "Mozilla/5.0";
                     Thread.Sleep(100);
                 }
@@ -174,6 +199,8 @@ namespace LightShot_Parser
 
                     // Непосредственно парсинг изображения и установка в соответсвущую директорию
                     client.DownloadFile((reHref.Match(html)).ToString(), (localFileName + (i + 1) + ".png"));
+                    HashCheck(localFileName, i);
+                    
                     client.Headers["User-Agent"] = "Mozilla/5.0";
                     Thread.Sleep(100);
                 }
