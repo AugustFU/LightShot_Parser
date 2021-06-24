@@ -33,9 +33,11 @@ namespace LightShot_Parser
                 for (int j = 0; j < imgAmount; j++)
                 {
                     int ii = j;
+
                     string src_updTemp = src_upd;
                     for (int o = 0; o < 5; o++)
                     {
+                        src_updTemp = src_upd;
                         src_updTemp += allowedChars[ii % 5];
 
                     }
