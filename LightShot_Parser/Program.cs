@@ -70,7 +70,7 @@ namespace LightShot_Parser
                             break;
 
                         default:
-                            Message.FaultExpect("Вы выбрали неправильное значение!");
+                            ParserMethods.RandomParse(client, level == 1 ? reHref : reHrefHard, localFileName);
                             break;
                     }
 
